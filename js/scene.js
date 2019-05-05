@@ -29,6 +29,7 @@ var animate = function() {
 }
 var onDocumentKeyDown = function(event) {
     var keyCode = event.which;
+    event.preventDefault();
     if (keyCode == 38) { // up key
         cube.upPressed = true;
     } else if (keyCode == 40) { // down key
@@ -40,6 +41,7 @@ var onDocumentKeyDown = function(event) {
     }
 };
 var onDocumentKeyUp = function(event) {
+    event.preventDefault();
     var keyCode = event.which;
     if (keyCode == 38) { // up key
         cube.upPressed = false;
