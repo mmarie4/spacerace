@@ -4,53 +4,63 @@ var animate = function() {
     if(!scene.gameOver && !scene.pause) {
         // Handle spawns
         for (var i = 0; i < spawns.length; i++) {
-            if (Math.abs(spawns[i].position.x - cube.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - cube.position.y) > SPAWN_LIMIT) {
-                console.log("clearing spawn");
+            if (Math.abs(spawns[i].position.x - scene.ship.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - scene.ship.position.y) > SPAWN_LIMIT) {
                 spawns[i].clear(scene);
                 spawns.splice(i, 1);
             } else {
-                Math.random() < SPAWN_FREQ ? spawns[i].pop() && spawns[i].update(cube, camera) : spawns[i].update(cube, camera);
+                Math.random() < SPAWN_FREQ ? spawns[i].pop() && spawns[i].update(scene.ship, camera) : spawns[i].update(scene.ship, camera);
             }
         }
         // Create new spawns
         Math.random() < NEWSPAWN_FREQ && spawns.length < MAX_NB_SPAWNS ?
             spawns.push(createSpawn(
                     scene,
-                    cube.position.x + SPAWN_LIMIT * (Math.random()-0.5),
-                    cube.position.y + SPAWN_LIMIT * (Math.random()-0.5),
+                    scene.ship.position.x + SPAWN_LIMIT * (Math.random()-0.5),
+                    scene.ship.position.y + SPAWN_LIMIT * (Math.random()-0.5),
                     SPAWN_Z)):
         // Handle spaceship
-        cube.move();
-        camera.update(cube);
-        spawns.forEach(spawn => cube.checkCollisions(spawn.enemies, scene));
+        scene.ship.move();
+        camera.update(scene.ship);
+        spawns.forEach(spawn => scene.ship.checkCollisions(spawn.enemies, scene));
         // Render
         renderer.render( scene, camera );
     }
 }
+
+var launchAfterLoad = function() {
+    console.log("trying to launch");
+    if (scene.ship != undefined) {
+        console.log("scene.ship = ", scene.ship);
+        animate();
+    } else {
+        setTimeout(launchAfterLoad, 500);
+    }
+}
+
 var onDocumentKeyDown = function(event) {
     var keyCode = event.which;
     event.preventDefault();
     if (keyCode == 38) { // up key
-        cube.upPressed = true;
+        scene.ship.upPressed = true;
     } else if (keyCode == 40) { // down key
-        cube.downPressed = true;
+        scene.ship.downPressed = true;
     } else if (keyCode == 39) { // right key
-        cube.rightPressed = true;
+        scene.ship.rightPressed = true;
     } else if (keyCode == 37) { // left key
-        cube.leftPressed = true;
+        scene.ship.leftPressed = true;
     }
 };
 var onDocumentKeyUp = function(event) {
     event.preventDefault();
     var keyCode = event.which;
     if (keyCode == 38) { // up key
-        cube.upPressed = false;
+        scene.ship.upPressed = false;
     } else if (keyCode == 40) { // down key
-        cube.downPressed = false;
+        scene.ship.downPressed = false;
     } else if (keyCode == 39) { // right key
-        cube.rightPressed = false;
+        scene.ship.rightPressed = false;
     } else if (keyCode == 37) { // left key
-        cube.leftPressed = false;
+        scene.ship.leftPressed = false;
     }
 };
 
@@ -76,14 +86,13 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight - 106);
 
 // spaceship
-var cube = createCube(-20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
+createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
 
 // spawns
 var spawns = [];
 
-scene.add( cube );
 document.body.appendChild( renderer.domElement );
 document.addEventListener("keydown", onDocumentKeyDown, false);
 document.addEventListener("keyup", onDocumentKeyUp);
 
-animate();
+launchAfterLoad();
