@@ -1,0 +1,23 @@
+.topbar {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    background-color: #000000;
+}
+
+img {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 10px;
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px;
+    cursor: pointer;
+}
+

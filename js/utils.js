@@ -27,3 +27,14 @@ var stayInScreen = function(object) {
         object.position.y -= object.ySpeed;
     }
 }
+
+// Open source code in new tab/window
+var onClickCode = function() {
+    window.open("https://github.com/mmarie4/spacerace", '_blank').focus();
+}
+
+// Pause
+var onClickPause = function() {
+    scene.pause = !scene.pause;
+    scene.pause ? document.getElementById("pause-icon").setAttribute("src", "res/play-icon.png") : document.getElementById("pause-icon").setAttribute("src", "res/pause-icon.png"); 
+}

@@ -1,7 +1,7 @@
 // ================================ Functions ================================ 
 var animate = function() {
-    if(!scene.gameOver) {
-        requestAnimationFrame( animate );
+    requestAnimationFrame( animate );
+    if(!scene.gameOver && !scene.pause) {
         // Handle spawns
         for (var i = 0; i < spawns.length; i++) {
             if (Math.abs(spawns[i].position.x - cube.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - cube.position.y) > SPAWN_LIMIT) {
@@ -57,9 +57,8 @@ var onDocumentKeyUp = function(event) {
 // scene
 var scene = new THREE.Scene();
 scene.background = new THREE.Color(0xe2edff)
-scene.end = function() {
-    this.gameOver = true;
-}
+scene.gameOver = false;
+scene.pause = false;
 
 // camera
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );

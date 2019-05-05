@@ -27,7 +27,7 @@ var createCube = function(y, z, xspeed, yspeed) {
     }
     cube.checkCollisions = function(objects, scene) {
         objects.forEach(o => {
-            if (o.hitbox.intersectsBox(this.hitbox)) scene.end();
+            if (o.hitbox.intersectsBox(this.hitbox)) scene.gameOver = true;
         });
     }
 
