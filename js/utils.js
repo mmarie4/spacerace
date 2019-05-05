@@ -36,5 +36,5 @@ var onClickCode = function() {
 // Pause
 var onClickPause = function() {
     scene.pause = !scene.pause;
-    scene.pause ? document.getElementById("pause-icon").setAttribute("src", "res/play-icon.png") : document.getElementById("pause-icon").setAttribute("src", "res/pause-icon.png"); 
+    scene.pause ? document.getElementById("pause-img").setAttribute("src", "res/play-icon.png") : document.getElementById("pause-img").setAttribute("src", "res/pause-icon.png"); 
 }

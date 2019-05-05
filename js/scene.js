@@ -73,7 +73,7 @@ camera.update = function(object) {
 
 // renderer
 var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setSize( window.innerWidth, window.innerHeight - 106);
 
 // spaceship
 var cube = createCube(-20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
