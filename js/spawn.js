@@ -22,8 +22,8 @@ var createSpawn = function(scene, x, y, z) {
             // Clean enemies array
             this.enemies = this.enemies.filter(e => e.position.z < camera.position.z);
         },
-        clear: function(scene) {
-            this.enemies.forEach(e => scene.remove(e));
+        clear: function(scene, orphans) {
+            this.enemies.forEach(e => orphans.push(e));
         }
     };
     return spawn;

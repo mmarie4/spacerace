@@ -12,15 +12,19 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
             this.hitbox.set(this.position, this.position);
             if (this.upPressed) {
                 this.position.y += this.ySpeed;
+                this.light.position.y += this.ySpeed;
             }
             if (this.downPressed) {
                 this.position.y -= this.ySpeed;
+                this.light.position.y -= this.ySpeed;
             }
             if (this.rightPressed)  {
                 this.position.x += this.xSpeed;
+                this.light.position.x += this.xSpeed;
             }
             if (this.leftPressed) {
                 this.position.x -= this.xSpeed;
+                this.light.position.x -= this.xSpeed;
             }
             stayInScreen(this);
             this.hitbox.setFromObject(this);
@@ -30,6 +34,11 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
                 if (o.hitbox.intersectsBox(this.hitbox)) scene.gameOver = true;
             });
         }
+        ship.light = new THREE.PointLight(0xffffff, 0.5, 0, 2);
+        ship.light.position = ship.position;
+        ship.light.position.y += 5;
+        ship.light.position.x += 5;
+        scene.add(ship.light);
         scene.add(ship);
         scene.ship = ship;
     }

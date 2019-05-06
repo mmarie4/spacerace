@@ -5,7 +5,7 @@ var animate = function() {
         // Handle spawns
         for (var i = 0; i < spawns.length; i++) {
             if (Math.abs(spawns[i].position.x - scene.ship.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - scene.ship.position.y) > SPAWN_LIMIT) {
-                spawns[i].clear(scene);
+                spawns[i].clear(scene, orphans);
                 spawns.splice(i, 1);
             } else {
                 Math.random() < SPAWN_FREQ ? spawns[i].pop() && spawns[i].update(scene.ship, camera) : spawns[i].update(scene.ship, camera);
@@ -18,6 +18,8 @@ var animate = function() {
                     scene.ship.position.x + SPAWN_LIMIT * (Math.random()-0.5),
                     scene.ship.position.y + SPAWN_LIMIT * (Math.random()-0.5),
                     SPAWN_Z)):
+        // Move orphan enemies
+        orphans.forEach(o => o.position.z > camera.position.z ? scene.remove(o) : o.move())
         // Handle spaceship
         scene.ship.move();
         camera.update(scene.ship);
@@ -68,9 +70,20 @@ var onDocumentKeyUp = function(event) {
 
 // scene
 var scene = new THREE.Scene();
-scene.background = new THREE.Color(0xe2edff)
+scene.background = new THREE.Color(0x00072b);
 scene.gameOver = false;
 scene.pause = false;
+
+// lights
+var light = new THREE.PointLight( 0xfff2c4, 2, 0, 2 );
+light.position.set(100, 100, 0);
+scene.add( light );
+var light = new THREE.PointLight( 0xc4ceff, 1.5, 0, 1 );
+light.position.set(-50, -100, 10);
+scene.add( light );
+var light = new THREE.PointLight( 0xf4e2ff, 1.5, 0, 10 );
+light.position.set(2, 10, 40);
+scene.add( light );
 
 // camera
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -88,11 +101,24 @@ renderer.setSize( window.innerWidth, window.innerHeight - 106);
 // spaceship
 createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
 
-// spawns
+// enemies
 var spawns = [];
+var orphans = [];
 
 document.body.appendChild( renderer.domElement );
 document.addEventListener("keydown", onDocumentKeyDown, false);
 document.addEventListener("keyup", onDocumentKeyUp);
+
+// Display menu
+var menuGeometry = new THREE.BoxGeometry(10, 5, 2);
+var texture = new THREE.TextureLoader().load("res/play.png");
+var menuMaterial = new THREE.MeshStandardMaterial( { map: texture });
+var menu = new THREE.Mesh(menuGeometry, menuMaterial);
+menu.position.x = 0;
+menu.position.y = -17;
+menu.position.z = 18;
+menu.rotation.x = -0.15;
+menu.rotation.y = 0.05;
+scene.add(menu);
 
 launchAfterLoad();
