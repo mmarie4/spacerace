@@ -22,11 +22,14 @@ var animate = function() {
         orphans.forEach(o => o.position.z > camera.position.z ? scene.remove(o) : o.move())
         // Handle spaceship
         scene.ship.move();
-        camera.update(scene.ship);
+        // Check collisions
         spawns.forEach(spawn => scene.ship.checkCollisions(spawn.enemies, scene));
-        // Render
-        renderer.render( scene, camera );
+        // Change time
+        document.getElementById("time").innerHTML = Math.abs(new Date() - scene.timestart)/1000 + " s";
     }
+    camera.update(scene.ship);
+    // Render
+    renderer.render( scene, camera );
 }
 
 var launchAfterLoad = function() {
@@ -66,13 +69,27 @@ var onDocumentKeyUp = function(event) {
     }
 };
 
+function onDocumentMouseDown( event ) {
+    event.preventDefault();
+    var mouse = new THREE.Vector2();
+    var raycaster = new THREE.Raycaster();
+    mouse.x = ( event.clientX / document.getElementsByTagName("canvas")[0].clientWidth ) * 2 - 1;
+    mouse.y = ( event.clientY / document.getElementsByTagName("canvas")[0].clientHeight ) * -2 + 1;
+    raycaster.setFromCamera( mouse, camera );
+    var intersects = raycaster.intersectObjects( [menu] );
+    if ( intersects.length > 0 ) {
+        intersects[0].object.callback(scene);
+    }
+
+}
+
 // ================================ Script execution ================================ 
 
 // scene
 var scene = new THREE.Scene();
 scene.background = new THREE.Color(0x00072b);
 scene.gameOver = false;
-scene.pause = false;
+scene.pause = true;
 
 // lights
 var light = new THREE.PointLight( 0xfff2c4, 2, 0, 2 );
@@ -108,17 +125,24 @@ var orphans = [];
 document.body.appendChild( renderer.domElement );
 document.addEventListener("keydown", onDocumentKeyDown, false);
 document.addEventListener("keyup", onDocumentKeyUp);
+document.addEventListener("mousedown", onDocumentMouseDown);
 
 // Display menu
-var menuGeometry = new THREE.BoxGeometry(10, 5, 2);
+var menuGeometry = new THREE.BoxGeometry(5, 2.5, 1);
 var texture = new THREE.TextureLoader().load("res/play.png");
 var menuMaterial = new THREE.MeshStandardMaterial( { map: texture });
 var menu = new THREE.Mesh(menuGeometry, menuMaterial);
 menu.position.x = 0;
-menu.position.y = -17;
+menu.position.y = -16.5;
 menu.position.z = 18;
 menu.rotation.x = -0.15;
 menu.rotation.y = 0.05;
+menu.callback = function(scene) {
+    document.getElementById("pause-icon").setAttribute("style", "display: inline-block")
+    scene.pause = false;
+    scene.remove(this);
+    scene.timestart = new Date();
+}
 scene.add(menu);
 
 launchAfterLoad();
