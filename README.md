@@ -1,5 +1,8 @@
 # Space race
 
+#### Direct link
+You can play the game by clicking [here](51.38.68.118)
+
 #### Tools
 - 3D rendering: three.js
 - Other front-end elements: HTML/CSS/JavaScript
