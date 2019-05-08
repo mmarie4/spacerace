@@ -56,3 +56,21 @@ p {
     float: right;
 }
 
+#start-text {
+    position: absolute;
+    top: calc(50% - 100px);
+    left: calc(50% - 200px);
+}
+
+#play-text, #restart-text{
+    position: absolute;
+    top: calc(50% + 150px);
+    left: calc(50% - 70px);
+}
+
+#gameover-text {
+    position: absolute;
+    top: 30%;
+    left: calc(50% - 100px)
+}
+

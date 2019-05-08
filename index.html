@@ -23,6 +23,10 @@
 	</head>
 
 	<body>
+		<img id="start-text" src="res/start-text.png">
+		<img id="gameover-text" src="res/gameover.png" style="visibility: hidden">
+		<img id="play-text" src="res/play.png" onclick="launchAfterLoad()">
+		<img id="restart-text" src="res/play.png" onclick="restart()" style="visibility: hidden">
 		<script src="js/three.js"></script>
 		<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
 		<script src="js/constants.js"></script>
@@ -34,8 +38,7 @@
 	</body>
 
 	<footer>
-		<p>Max MARIE</p>
-		<p>May 2019</p>
+		<p>Max MARIE - May 2019</p>
 		<p id="time">0 s</p>
 	</footer>
 </html>

@@ -33,13 +33,27 @@ var animate = function() {
 }
 
 var launchAfterLoad = function() {
-    console.log("trying to launch");
+    console.log("trying to launch...");
     if (scene.ship != undefined) {
-        console.log("scene.ship = ", scene.ship);
+        scene.add(scene.ship);
+        document.getElementById("start-text").setAttribute("style", "display: none");
+        document.getElementById("play-text").setAttribute("style", "display: none");
+        scene.pause = false;
+        scene.timestart = new Date();
         animate();
     } else {
         setTimeout(launchAfterLoad, 500);
     }
+}
+
+var restart = function() {
+    scene.ship.position = new THREE.Vector3(0, -20, 10);
+    document.getElementById("gameover-text").setAttribute("style", "display: none");
+    document.getElementById("restart-text").setAttribute("style", "display: none");
+    scene.gameOver = false;
+    scene.pause = false;
+    scene.timestart = new Date();
+    scene.add(scene.ship);
 }
 
 var onDocumentKeyDown = function(event) {
@@ -53,6 +67,8 @@ var onDocumentKeyDown = function(event) {
         scene.ship.rightPressed = true;
     } else if (keyCode == 37) { // left key
         scene.ship.leftPressed = true;
+    } else if (keyCode == 32) { // space bar
+        scene.ship.boost();
     }
 };
 var onDocumentKeyUp = function(event) {
@@ -69,20 +85,6 @@ var onDocumentKeyUp = function(event) {
     }
 };
 
-function onDocumentMouseDown( event ) {
-    event.preventDefault();
-    var mouse = new THREE.Vector2();
-    var raycaster = new THREE.Raycaster();
-    mouse.x = ( event.clientX / document.getElementsByTagName("canvas")[0].clientWidth ) * 2 - 1;
-    mouse.y = ( event.clientY / document.getElementsByTagName("canvas")[0].clientHeight ) * -2 + 1;
-    raycaster.setFromCamera( mouse, camera );
-    var intersects = raycaster.intersectObjects( [menu] );
-    if ( intersects.length > 0 ) {
-        intersects[0].object.callback(scene);
-    }
-
-}
-
 // ================================ Script execution ================================ 
 
 // scene
@@ -90,6 +92,17 @@ var scene = new THREE.Scene();
 scene.background = new THREE.Color(0x00072b);
 scene.gameOver = false;
 scene.pause = true;
+scene.end = function() {
+    this.gameOver = true;
+    spawns.forEach(s => s.clear(scene, orphans));
+    orphans.forEach(o => scene.remove(o));
+    orphans = [];
+    spawns = [];
+    createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
+    scene.remove(scene.ship);
+    document.getElementById("gameover-text").setAttribute("style", "visibility: visible");
+    document.getElementById("restart-text").setAttribute("style", "display: inline");
+}
 
 // lights
 var light = new THREE.PointLight( 0xfff2c4, 2, 0, 2 );
@@ -102,6 +115,13 @@ var light = new THREE.PointLight( 0xf4e2ff, 1.5, 0, 10 );
 light.position.set(2, 10, 40);
 scene.add( light );
 
+// renderer
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight - 106);
+
+// spaceship
+createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
+
 // camera
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 camera.position.z = 25;
@@ -111,13 +131,6 @@ camera.update = function(object) {
     camera.position.y = object.position.y + 5;
 }
 
-// renderer
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight - 106);
-
-// spaceship
-createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
-
 // enemies
 var spawns = [];
 var orphans = [];
@@ -125,24 +138,3 @@ var orphans = [];
 document.body.appendChild( renderer.domElement );
 document.addEventListener("keydown", onDocumentKeyDown, false);
 document.addEventListener("keyup", onDocumentKeyUp);
-document.addEventListener("mousedown", onDocumentMouseDown);
-
-// Display menu
-var menuGeometry = new THREE.BoxGeometry(5, 2.5, 1);
-var texture = new THREE.TextureLoader().load("res/play.png");
-var menuMaterial = new THREE.MeshStandardMaterial( { map: texture });
-var menu = new THREE.Mesh(menuGeometry, menuMaterial);
-menu.position.x = 0;
-menu.position.y = -16.5;
-menu.position.z = 18;
-menu.rotation.x = -0.15;
-menu.rotation.y = 0.05;
-menu.callback = function(scene) {
-    document.getElementById("pause-icon").setAttribute("style", "display: inline-block")
-    scene.pause = false;
-    scene.remove(this);
-    scene.timestart = new Date();
-}
-scene.add(menu);
-
-launchAfterLoad();
