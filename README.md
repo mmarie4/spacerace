@@ -9,9 +9,8 @@ You can play the game by clicking [here](http://51.38.68.118)
 - 3D Modelisation: Blender
 
 #### Todo
-- **Make animation frequency depending on time, not cpu's speed...** 
+- adjust z axis for enemies and ship
 - Replace enemies by .glb
-- Fix bug static enemies near camera
 - Display boost cooldown
 - Create database with score 
 - Dsiplay leaderboard

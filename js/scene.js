@@ -1,35 +1,53 @@
+var lastUpdate = new Date();
 // ================================ Functions ================================ 
 var animate = function() {
-    requestAnimationFrame( animate );
-    if(!scene.gameOver && !scene.pause) {
-        // Handle spawns
-        for (var i = 0; i < spawns.length; i++) {
-            if (Math.abs(spawns[i].position.x - scene.ship.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - scene.ship.position.y) > SPAWN_LIMIT) {
-                spawns[i].clear(scene, orphans);
-                spawns.splice(i, 1);
-            } else {
-                Math.random() < SPAWN_FREQ ? spawns[i].pop() && spawns[i].update(scene.ship, camera) : spawns[i].update(scene.ship, camera);
+    console.log("Math.abs(new Date() - lastUpdate)", Math.abs(new Date() - lastUpdate));
+    if (Math.abs(new Date() - lastUpdate) > UPDATE_FREQ) {
+        if(!scene.gameOver && !scene.pause) {
+            // Handle spawns
+            for (var i = 0; i < spawns.length; i++) {
+                if (Math.abs(spawns[i].position.x - scene.ship.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - scene.ship.position.y) > SPAWN_LIMIT) {
+                    spawns[i].clear(scene, orphans);
+                    spawns.splice(i, 1);
+                } else {
+                    if (Math.random() < SPAWN_FREQ) {
+                        spawns[i].pop() && spawns[i].update(scene.ship, camera);
+                    }
+                    spawns[i].update(scene.ship, camera);
+                }
             }
+            // Create new spawns
+            if(Math.random() < NEWSPAWN_FREQ && spawns.length < MAX_NB_SPAWNS) {
+                spawns.push(createSpawn(
+                        scene,
+                        scene.ship.position.x + SPAWN_LIMIT * (Math.random()-0.5),
+                        scene.ship.position.y + SPAWN_LIMIT * (Math.random()-0.5),
+                        SPAWN_Z));
+            }
+            // Move orphan enemies
+            for(var i = 0; i < orphans.length; i++) {
+                if (orphans[i].position.z >= camera.position.z) {
+                    scene.remove(orphans[i]);
+                    orphans.splice(i, 1);
+                } else {
+                    orphans[i].move();
+                }
+            }
+            // Handle spaceship
+            scene.ship.move();
+            camera.update(scene.ship);
+            // Check collisions
+            spawns.forEach(spawn => scene.ship.checkCollisions(spawn.enemies, scene));
+            // Change time
+            document.getElementById("time").innerHTML = Math.abs(new Date() - scene.timestart)/1000 + " s";
         }
-        // Create new spawns
-        Math.random() < NEWSPAWN_FREQ && spawns.length < MAX_NB_SPAWNS ?
-            spawns.push(createSpawn(
-                    scene,
-                    scene.ship.position.x + SPAWN_LIMIT * (Math.random()-0.5),
-                    scene.ship.position.y + SPAWN_LIMIT * (Math.random()-0.5),
-                    SPAWN_Z)):
-        // Move orphan enemies
-        orphans.forEach(o => o.position.z > camera.position.z ? scene.remove(o) : o.move())
-        // Handle spaceship
-        scene.ship.move();
-        // Check collisions
-        spawns.forEach(spawn => scene.ship.checkCollisions(spawn.enemies, scene));
-        // Change time
-        document.getElementById("time").innerHTML = Math.abs(new Date() - scene.timestart)/1000 + " s";
+        lastUpdate = new Date();
+    } else {
+        console.log("skipping loop");
     }
-    camera.update(scene.ship);
     // Render
     renderer.render( scene, camera );
+    requestAnimationFrame( animate );
 }
 
 var launchAfterLoad = function() {
