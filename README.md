@@ -9,7 +9,8 @@ You can play the game by clicking [here](http://51.38.68.118)
 - 3D Modelisation: Blender
 
 #### Todo
-- adjust z axis for enemies and ship
+- Move ship on Z instead of enemies
+- Align z axi1s for enemies and ship
 - Replace enemies by .glb
 - Display boost cooldown
 - Create database with score 
