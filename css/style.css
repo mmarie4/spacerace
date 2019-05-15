@@ -74,3 +74,11 @@ p {
     left: calc(50% - 100px)
 }
 
+#boost-text {
+    position: absolute;
+    top: 80px;
+    left: -30px;
+    font-size: 14px;
+    opacity: 0.2;
+}
+

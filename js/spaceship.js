@@ -7,6 +7,8 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
         ship.rotation.y = Math.PI / 2;
         ship.xSpeed = xspeed;
         ship.ySpeed = yspeed;
+        ship.zSpeed = 0;
+        ship.accel = 0;
         ship.lastBoost = new Date();
         ship.hitbox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
         ship.move = function() {
@@ -28,6 +30,7 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
                 this.position.x -= this.xSpeed + this.accel;
                 this.light.position.x -= this.xSpeed + this.accel;
             }
+            this.position.z -= this.accel;
             if (this.accel > 0) {
                 this.accel -= DECAY_BOOST;
             } else {
@@ -45,6 +48,12 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
             if (Math.abs(new Date() - this.lastBoost) > BOOST_COOLDOWN_MS) {
                 this.lastBoost = new Date();
                 this.accel = BOOST;
+                document.getElementById("boost-text").setAttribute("style", "opacity: 0.2");
+            }
+        }
+        ship.checkBoost = function() {
+            if (Math.abs(new Date() - this.lastBoost) > BOOST_COOLDOWN_MS) {
+                document.getElementById("boost-text").setAttribute("style", "opacity: 1.0");
             }
         }
         ship.light = new THREE.PointLight(0xffffff, 0.5, 0, 2);
