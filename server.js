@@ -14,7 +14,6 @@ app.use(express.json())
 app.post('/new-score', function(req, res) {
     fs.readFile('leaderboard.json', 'utf8', function(err, data) {
         leaderboard = data != undefined ? JSON.parse(data) : [];
-        leaderboard.push({name: req.body.name, score: req.body.score});
         // Find smaller score
         var minScore = undefined;
         var indexMin = undefined;
@@ -29,7 +28,7 @@ app.post('/new-score', function(req, res) {
             }
         }
         if (indexMin != undefined) {
-            if (req.body.score > indexMin) {
+            if (req.body.score > minScore) {
                 leaderboard.splice(i, 1);
                 leaderboard.push({name: req.body.name, score: req.body.score});
             }
