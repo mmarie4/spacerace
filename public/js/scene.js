@@ -6,23 +6,34 @@ var animate = function() {
         if(!scene.gameOver && !scene.pause) {
             // Handle spawns
             for (var i = 0; i < spawns.length; i++) {
-                if (Math.abs(spawns[i].position.x - scene.ship.position.x) > SPAWN_LIMIT || Math.abs(spawns[i].position.y - scene.ship.position.y) > SPAWN_LIMIT) {
+                if (Math.abs(spawns[i].position.x - scene.ship.position.x) > SPAWN_LIMIT_FAR || Math.abs(spawns[i].position.y - scene.ship.position.y) > SPAWN_LIMIT_FAR) {
                     spawns[i].clear(scene, orphans);
+                    console.log("clearing spawn")
                     spawns.splice(i, 1);
                 } else {
                     if (Math.random() < SPAWN_FREQ) {
-                        spawns[i].pop() && spawns[i].update(scene.ship, camera);
+                        console.log("popping ennemy")
+                        spawns[i].pop() && spawns[i].update(scene, camera);
                     }
-                    spawns[i].update(scene.ship, camera);
+                    spawns[i].update(scene, camera);
                 }
             }
             // Create new spawns
-            if(Math.random() < NEWSPAWN_FREQ && spawns.length < MAX_NB_SPAWNS) {
-                spawns.push(createSpawn(
+            var rand = Math.random();
+            if(rand < NEWSPAWN_FREQ_NEAR && spawns.length < MAX_NB_SPAWNS) {
+                if (rand < NEWSPAWN_FREQ_FAR) {
+                    spawns.push(createSpawn(
                         scene,
-                        scene.ship.position.x + SPAWN_LIMIT * (Math.random()-0.5),
-                        scene.ship.position.y + SPAWN_LIMIT * (Math.random()-0.5),
+                        scene.ship.position.x + SPAWN_LIMIT_FAR * (Math.random()-0.5),
+                        scene.ship.position.y + SPAWN_LIMIT_FAR * (Math.random()-0.5),
                         SPAWN_Z));
+                } else {
+                    spawns.push(createSpawn(
+                        scene,
+                        scene.ship.position.x + SPAWN_LIMIT_NEAR * (Math.random()-0.5),
+                        scene.ship.position.y + SPAWN_LIMIT_NEAR * (Math.random()-0.5),
+                        SPAWN_Z));
+                }
             }
             // Move orphan enemies
             for(var i = 0; i < orphans.length; i++) {
@@ -38,7 +49,8 @@ var animate = function() {
             camera.update(scene.ship);
             // Check collisions
             spawns.forEach(spawn => scene.ship.checkCollisions(spawn.enemies, scene));
-            // Change time
+            // Update info displayed
+            scene.ship.checkBoost();
             document.getElementById("time").innerHTML = Math.abs(new Date() - scene.timestart)/1000 + " s";
         }
         lastUpdate = new Date();
@@ -125,13 +137,13 @@ loadEnemyModel(scene);
 
 // lights
 var light = new THREE.PointLight( 0xfff2c4, 2, 0, 2 );
-light.position.set(100, 100, 0);
+light.position.set(1000, 3500, 0);
 scene.add( light );
 var light = new THREE.PointLight( 0xc4ceff, 1.5, 0, 1 );
-light.position.set(-50, -100, 10);
+light.position.set(-5000, -1000, -900);
 scene.add( light );
 var light = new THREE.PointLight( 0xf4e2ff, 1.5, 0, 10 );
-light.position.set(2, 10, 40);
+light.position.set(2000, 1500, 40);
 scene.add( light );
 
 // renderer
@@ -148,6 +160,7 @@ camera.rotation.x = -0.2;
 camera.update = function(object) {
     camera.position.x = object.position.x;
     camera.position.y = object.position.y + 5;
+    camera.position.z = object.position.z + 15;
 }
 
 // enemies
