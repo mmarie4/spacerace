@@ -12,7 +12,6 @@ var animate = function() {
                     spawns.splice(i, 1);
                 } else {
                     if (Math.random() < SPAWN_FREQ) {
-                        console.log("popping ennemy")
                         spawns[i].pop() && spawns[i].update(scene, camera);
                     }
                     spawns[i].update(scene, camera);
@@ -52,10 +51,10 @@ var animate = function() {
             // Update info displayed
             scene.ship.checkBoost();
             document.getElementById("time").innerHTML = Math.abs(new Date() - scene.timestart)/1000 + " s";
+        } else {
         }
         lastUpdate = new Date();
     } else {
-        console.log("skipping loop");
     }
     // Render
     renderer.render( scene, camera );
@@ -125,7 +124,9 @@ scene.pause = true;
 scene.end = function() {
     this.gameOver = true;
     spawns.forEach(s => s.clear(scene, orphans));
-    orphans.forEach(o => scene.remove(o));
+    orphans.forEach(o => {
+        scene.remove(o);
+    });
     orphans = [];
     spawns = [];
     createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
@@ -143,8 +144,9 @@ var light = new THREE.PointLight( 0xc4ceff, 1.5, 0, 1 );
 light.position.set(-5000, -1000, -900);
 scene.add( light );
 var light = new THREE.PointLight( 0xf4e2ff, 1.5, 0, 10 );
-light.position.set(2000, 1500, 40);
+light.position.set(-10, 5000, 20);
 scene.add( light );
+
 
 // renderer
 var renderer = new THREE.WebGLRenderer();

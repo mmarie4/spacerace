@@ -19,9 +19,15 @@ var createSpawn = function(scene, x, y, z) {
             this.position.y += this.speed;
             this.position.z = scene.ship.position.z + SPAWN_Z;
             // Remove enemies outside and move others
-            this.enemies.forEach(e => e.position.z > BORDER_ENEMIES ? scene.remove(e) && console.log("remove ennemy") : e.move())
+            this.enemies.forEach(e => {
+                if (e.position.z > BORDER_ENEMIES) {
+                    scene.remove(e);
+                } else {
+                    e.move();
+                }
+            });
             // Clean enemies array
-            this.enemies = this.enemies.filter(e => e.position.z < camera.position.z);
+            //this.enemies = this.enemies.filter(e => e.position.z < camera.position.z);
         },
         clear: function(scene, orphans) {
             this.enemies.forEach(e => orphans.push(e));
