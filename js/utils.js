@@ -38,3 +38,11 @@ var onClickPause = function() {
     scene.pause = !scene.pause;
     scene.pause ? document.getElementById("pause-img").setAttribute("src", "res/play-icon.png") : document.getElementById("pause-img").setAttribute("src", "res/pause-icon.png"); 
 }
+
+// Load gltf for enemies
+var loadEnemyModel = function(scene) {
+    var loader = new THREE.GLTFLoader();
+    loader.load('res/joined-enemy.glb', function(gltf) {
+        scene.enemyModel = gltf.scene;
+    });
+}

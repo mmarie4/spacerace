@@ -1,7 +1,7 @@
 var createEnemy = function(x, y, z, speed) {
     var geometry = new THREE.BoxGeometry( 5, 5, 5 );
     var material = new THREE.MeshStandardMaterial( { color: new THREE.Color( 0xff1d00 ) } );
-    var enemy = new THREE.Mesh( geometry, material );
+    var enemy = scene.enemyModel.clone()
     enemy.position = THREE.Vector3();
     enemy.position.x = x;
     enemy.position.y = y;

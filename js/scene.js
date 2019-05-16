@@ -52,7 +52,7 @@ var animate = function() {
 
 var launchAfterLoad = function() {
     console.log("trying to launch...");
-    if (scene.ship != undefined) {
+    if (scene.ship != undefined && scene.enemyModel != undefined) {
         scene.add(scene.ship);
         document.getElementById("start-text").setAttribute("style", "display: none");
         document.getElementById("play-text").setAttribute("style", "display: none");
@@ -121,6 +121,7 @@ scene.end = function() {
     document.getElementById("gameover-text").setAttribute("style", "visibility: visible");
     document.getElementById("restart-text").setAttribute("style", "display: inline");
 }
+loadEnemyModel(scene);
 
 // lights
 var light = new THREE.PointLight( 0xfff2c4, 2, 0, 2 );
