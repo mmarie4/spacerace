@@ -44,4 +44,4 @@ app.post('/new-score', function(req, res) {
     });
 });
 
-app.listen(8080);
+app.listen(80);
