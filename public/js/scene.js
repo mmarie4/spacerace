@@ -1,7 +1,6 @@
 var lastUpdate = new Date();
 // ================================ Functions ================================ 
 var animate = function() {
-    console.log("scene:", scene);
     //console.log("Math.abs(new Date() - lastUpdate)", Math.abs(new Date() - lastUpdate));
     if (Math.abs(new Date() - lastUpdate) > UPDATE_FREQ) {
         if(!scene.gameOver && !scene.pause) {
@@ -88,14 +87,17 @@ var restart = function() {
 
 var onDocumentKeyDown = function(event) {
     var keyCode = event.which;
-    event.preventDefault();
     if (keyCode == 38) { // up key
         scene.ship.upPressed = true;
+        event.preventDefault();
     } else if (keyCode == 40) { // down key
+        event.preventDefault();
         scene.ship.downPressed = true;
     } else if (keyCode == 39) { // right key
+        event.preventDefault();
         scene.ship.rightPressed = true;
     } else if (keyCode == 37) { // left key
+        event.preventDefault();
         scene.ship.leftPressed = true;
     } else if (keyCode == 32) { // space bar
         scene.ship.boost();

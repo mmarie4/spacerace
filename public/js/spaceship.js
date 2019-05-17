@@ -13,7 +13,6 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
         ship.hitbox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
         ship.move = function() {
             this.hitbox.set(this.position, this.position);
-
             if (this.upPressed) {
                 this.position.y += this.ySpeed + this.accel;
                 this.light.position.y += this.ySpeed + this.accel;
@@ -60,7 +59,9 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
         },
         ship.kill = function(scene) {
             scene.remove(this);
-            scene.remove(this.sprite);
+            scene.remove(this.reactor1);
+            scene.remove(this.reactor2);
+            scene.remove(this.reactor3);
             scene.remove(this.light);
         }
         ship.light = new THREE.PointLight(0xffffff, 0.5, 0, 2);
