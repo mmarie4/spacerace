@@ -1,7 +1,8 @@
 var lastUpdate = new Date();
 // ================================ Functions ================================ 
 var animate = function() {
-    console.log("Math.abs(new Date() - lastUpdate)", Math.abs(new Date() - lastUpdate));
+    console.log("scene:", scene);
+    //console.log("Math.abs(new Date() - lastUpdate)", Math.abs(new Date() - lastUpdate));
     if (Math.abs(new Date() - lastUpdate) > UPDATE_FREQ) {
         if(!scene.gameOver && !scene.pause) {
             // Handle spawns
@@ -130,7 +131,7 @@ scene.end = function() {
     orphans = [];
     spawns = [];
     createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
-    scene.remove(scene.ship);
+    scene.ship.kill(scene);
     document.getElementById("gameover-text").setAttribute("style", "visibility: visible");
     document.getElementById("restart-text").setAttribute("style", "display: inline");
 }

@@ -11,23 +11,6 @@ var localToGlobal = function (object) {
     return pos;
 }
 
-// Force position to stay in screen
-var stayInScreen = function(object) {
-    var pos = localToGlobal(object);
-    if(pos.x >= innerWidth - 50) {
-        object.position.x -= object.xSpeed;
-    }
-    if(pos.x <= 50) {
-        object.position.x += object.xSpeed;
-    }
-    if(pos.y >= innerHeight - 50) {
-        object.position.y += object.ySpeed;
-    }
-    if(pos.y <= 50) {
-        object.position.y -= object.ySpeed;
-    }
-}
-
 // Open source code in new tab/window
 var onClickCode = function() {
     window.open("https://github.com/mmarie4/spacerace", '_blank').focus();
