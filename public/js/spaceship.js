@@ -36,7 +36,9 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
             } else {
                 this.accel = 0;
             }
-            ship.sprite.position.set(ship.position.x - 0.1, ship.position.y + 3.78, ship.position.z + 10);
+            ship.reactor1.position.set(ship.position.x - 0.1, ship.position.y + 3.78, ship.position.z + 10);
+            ship.reactor2.position.set(ship.position.x - 0.65, ship.position.y + 3.35, ship.position.z + 10);
+            ship.reactor3.position.set(ship.position.x + 0.45, ship.position.y + 3.35, ship.position.z + 10);
             this.hitbox.setFromObject(this);
         }
         ship.checkCollisions = function(objects, scene) {
@@ -68,10 +70,15 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
         // Sprites : https://ui-ex.com/explore/transparent-circle-light/
         new THREE.TextureLoader().load("res/reactor.png", function(spriteMap) {
             var spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, color: 0xffffff } );
-            ship.sprite = new THREE.Sprite( spriteMaterial );
-            ship.sprite.scale.set(5, 5, 5);
-            ship.sprite.position.set(ship.position.x, ship.position.y + 3, ship.position.z + 10);
-            scene.add( ship.sprite );
+            ship.reactor1 = new THREE.Sprite( spriteMaterial );
+            ship.reactor2 = new THREE.Sprite( spriteMaterial );
+            ship.reactor3 = new THREE.Sprite( spriteMaterial );
+            ship.reactor1.scale.set(5, 5, 5);
+            ship.reactor2.scale.set(5, 5, 5);
+            ship.reactor3.scale.set(5, 5, 5);
+            scene.add( ship.reactor1 );
+            scene.add( ship.reactor2 );
+            scene.add( ship.reactor3 );
         });
         scene.add(ship.light);
         scene.ship = ship;
