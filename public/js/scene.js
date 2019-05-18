@@ -1,4 +1,3 @@
-var lastUpdate = new Date();
 // ================================ Functions ================================ 
 var animate = function() {
     //console.log("Math.abs(new Date() - lastUpdate)", Math.abs(new Date() - lastUpdate));
@@ -89,15 +88,11 @@ var onDocumentKeyDown = function(event) {
     var keyCode = event.which;
     if (keyCode == 38) { // up key
         scene.ship.upPressed = true;
-        event.preventDefault();
     } else if (keyCode == 40) { // down key
-        event.preventDefault();
         scene.ship.downPressed = true;
     } else if (keyCode == 39) { // right key
-        event.preventDefault();
         scene.ship.rightPressed = true;
     } else if (keyCode == 37) { // left key
-        event.preventDefault();
         scene.ship.leftPressed = true;
     } else if (keyCode == 32) { // space bar
         scene.ship.boost();
@@ -107,17 +102,22 @@ var onDocumentKeyUp = function(event) {
     event.preventDefault();
     var keyCode = event.which;
     if (keyCode == 38) { // up key
+        event.preventDefault();
         scene.ship.upPressed = false;
     } else if (keyCode == 40) { // down key
+        event.preventDefault();
         scene.ship.downPressed = false;
     } else if (keyCode == 39) { // right key
+        event.preventDefault();
         scene.ship.rightPressed = false;
     } else if (keyCode == 37) { // left key
+        event.preventDefault();
         scene.ship.leftPressed = false;
     }
 };
 
 // ================================ Script execution ================================ 
+var lastUpdate = new Date();
 
 // scene
 var scene = new THREE.Scene();
@@ -136,6 +136,18 @@ scene.end = function() {
     scene.ship.kill(scene);
     document.getElementById("gameover-text").setAttribute("style", "visibility: visible");
     document.getElementById("restart-text").setAttribute("style", "display: inline");
+    // send score
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/new-score', true);
+    //Send the proper header information along with the request
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            // do nothing...
+        }
+    }
+    score = {name: document.getElementById("player-text").value, score: document.getElementById("time").innerHTML};
+    xhr.send(JSON.stringify(score));
 }
 loadEnemyModel(scene);
 
@@ -143,12 +155,12 @@ loadEnemyModel(scene);
 var light = new THREE.PointLight( 0xfff2c4, 2, 0, 2 );
 light.position.set(1000, 3500, 0);
 scene.add( light );
-var light = new THREE.PointLight( 0xc4ceff, 1.5, 0, 1 );
-light.position.set(-5000, -1000, -900);
-scene.add( light );
-var light = new THREE.PointLight( 0xf4e2ff, 1.5, 0, 10 );
-light.position.set(-10, 5000, 20);
-scene.add( light );
+var light2 = new THREE.PointLight( 0xc4ceff, 1.5, 0, 0 );
+light2.position.set(-5000, -1000, -900);
+scene.add( light2 );
+var light3 = new THREE.PointLight( 0xf4e2ff, 2, 0, 0 );
+light3.position.set(-10, -10, 0);
+scene.add( light3 );
 
 
 // renderer

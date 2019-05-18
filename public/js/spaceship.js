@@ -35,6 +35,11 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
             } else {
                 this.accel = 0;
             }
+            if(this.accel == 0) {
+                this.reactor1.scale.set(5, 5, 5);
+                this.reactor2.scale.set(5, 5, 5);
+                this.reactor3.scale.set(5, 5, 5);
+            }
             ship.reactor1.position.set(ship.position.x - 0.1, ship.position.y + 3.78, ship.position.z + 10);
             ship.reactor2.position.set(ship.position.x - 0.65, ship.position.y + 3.35, ship.position.z + 10);
             ship.reactor3.position.set(ship.position.x + 0.45, ship.position.y + 3.35, ship.position.z + 10);
@@ -50,6 +55,9 @@ var createShip = function(scene, y, z, xspeed, yspeed) {
                 this.lastBoost = new Date();
                 this.accel = BOOST;
                 document.getElementById("boost-text").setAttribute("style", "opacity: 0.2");
+                this.reactor1.scale.set(8, 8, 8);
+                this.reactor2.scale.set(8, 8, 8);
+                this.reactor3.scale.set(8, 8, 8);
             }
         }
         ship.checkBoost = function() {

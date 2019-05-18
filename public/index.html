@@ -3,10 +3,6 @@
 	<head>
 		<meta charset=utf-8>
 		<title>Spacerace</title>
-		<style>
-			body { margin: 0; }
-			canvas { width: 100%; height: 60% }
-		</style>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<div class="topbar">
 			<div class="icon" id="code-icon" onclick="onClickCode()">
@@ -15,8 +11,11 @@
 
 			<img src="res/title.png"/>
 
-			<div class="icon" id="pause-icon" onclick="onClickPause()">
-				<img id="pause-img" src="res/pause-icon.png">
+			<input id="player-text" onfocus='this.value=""'>
+
+			<div class="icon" id="right-icon">
+				<img id="leaderboard-img" src="res/leaderboard.png" onclick="onClickLeaderboard()">
+				<img id="pause-img" src="res/pause-icon.png" onclick="onClickPause()">
 			</div>
 
 		</div>
@@ -29,9 +28,18 @@
 		<img id="restart-text" src="res/play.png" onclick="restart()" style="visibility: hidden">
 		<p id="boost-text">Boost</p>
 		<div id=leaderboard-section>
-			<h2>Leaderboard <img id="cross" src="res/cross.png"></h2>
-			<div id=leaderboard-content">
-				<text id="player1">Player 1:</text> <text id="score1"> 1526 seconds</text>
+			<h2>Leaderboard <img id="cross" src="res/cross.png" onclick="onClickCross()"></h2>
+			<div id="leaderboard-content">
+				<text id="player1"></text> <text id="score1"> </text>
+				<text id="player2"></text> <text id="score2"> </text>
+				<text id="player3"></text> <text id="score3"> </text>
+				<text id="player4"></text> <text id="score4"> </text>
+				<text id="player5"></text> <text id="score5"> </text>
+				<text id="player6"></text> <text id="score6"> </text>
+				<text id="player7"></text> <text id="score7"> </text>
+				<text id="player8"></text> <text id="score8"> </text>
+				<text id="player9"></text> <text id="score9"> </text>
+				<text id="player10"></text> <text id="score10"> </text>
 			</div>
 		</div>
 		<script src="js/three.js"></script>

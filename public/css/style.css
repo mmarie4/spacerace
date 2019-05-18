@@ -9,6 +9,8 @@
 
 body {
     margin: 0;
+    background: #000000;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 canvas {
@@ -32,7 +34,7 @@ img {
 #code-icon {
     float: left;
 }
-#pause-icon {
+#right-icon {
     float: right;
 }
 
@@ -41,6 +43,7 @@ footer {
     height: auto;
     width: 100%;
     background-color: #000000;
+    margin: 0;
 }
 
 p {
@@ -49,7 +52,6 @@ p {
     margin-left:50px;
     color: #ffffff;
     margin-right: 50px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #time {
@@ -77,10 +79,11 @@ p {
 
 #boost-text {
     position: absolute;
-    top: 80px;
-    left: -30px;
+    top: 12%;
+    left: 2%;
     font-size: 14px;
     opacity: 0.2;
+    margin: 0;
 }
 
 #leaderboard-section {
@@ -92,9 +95,13 @@ p {
     right: 30%;
     bottom: 30%;
     background: #000000;
-    border: 2px solid #ffffff;
+    border: 1px solid #ffffff;
     color: #ffffff;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+text {
+    display: inline-block;
+    width: 40%;
 }
 
 h2 {
@@ -106,5 +113,17 @@ h2 {
     float: right;
     cursor: pointer;
     margin: 0;
+}
+
+#player-text {
+    background: none;
+    border: none;
+    color: #ffffff;
+    position: absolute;
+    top: 12%;
+    left: 90%;
+    max-width: 8%;
+    font-size: 14px;
+    cursor: pointer;
 }
 
