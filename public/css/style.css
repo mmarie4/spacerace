@@ -93,10 +93,14 @@ p {
     top: 30%;
     left: 30%;
     right: 30%;
-    bottom: 30%;
+    bottom: auto;
     background: #000000;
     border: 1px solid #ffffff;
     color: #ffffff;
+}
+
+#leaderboard-content {
+    margin: 20px;
 }
 
 text {
