@@ -39,7 +39,7 @@ var animate = function() {
                     scene.remove(orphans[i]);
                     orphans.splice(i, 1);
                 } else {
-                    orphans[i].move();
+                    orphans[i].move(scene.ship);
                 }
             }
             // Handle spaceship

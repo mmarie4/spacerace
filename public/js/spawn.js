@@ -9,7 +9,7 @@ var createSpawn = function(scene, x, y, z) {
             z: z
         },
         pop: function() {
-            var newEnemy = createEnemy(this.position.x, this.position.y, this.position.z, ENEMIES_SPEED);
+            var newEnemy = createEnemy(this.position.x, this.position.y, this.position.z, ENEMIES_SPEED_Z);
             this.enemies.push(newEnemy);
             this.scene.add(newEnemy);
         },
@@ -23,7 +23,7 @@ var createSpawn = function(scene, x, y, z) {
                 if (e.position.z > BORDER_ENEMIES) {
                     scene.remove(e);
                 } else {
-                    e.move();
+                    e.move(scene.ship);
                 }
             });
             // Clean enemies array

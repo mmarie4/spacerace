@@ -80,7 +80,7 @@ p {
 #boost-text {
     position: absolute;
     top: 12%;
-    left: 2%;
+    left: 95%;
     font-size: 14px;
     opacity: 0.2;
     margin: 0;
@@ -125,7 +125,7 @@ h2 {
     color: #ffffff;
     position: absolute;
     top: 12%;
-    left: 90%;
+    left: 2%;
     max-width: 8%;
     font-size: 14px;
     cursor: pointer;
