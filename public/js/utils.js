@@ -64,7 +64,6 @@ var onClickCross = function() {
     leaderboardDisplayed = false;
 }
 
-
 // ========================== script execution =============================
 var leaderboardDisplayed = false;
 // Display player name
