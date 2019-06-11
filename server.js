@@ -12,7 +12,12 @@ app.use(express.static('public'));
 app.use(express.json())
 
 app.post('/new-score', function(req, res) {
-    console.log("body: ", req.body);
+    // Discard XSS injections
+    if(req.body.name.includes('<') || typeof req.body.score != "number") {
+        console.log("Discading suspicious request");
+        res.end();
+        return;
+    }
     fs.readFile('leaderboard.json', 'utf8', function(err, data) {
         leaderboard = data != undefined ? JSON.parse(data) : [];
         if(leaderboard.length >= 10) {

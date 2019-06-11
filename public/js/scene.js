@@ -116,35 +116,6 @@ var onDocumentKeyUp = function(event) {
     }
 };
 
-function handleOrientation(event) {
-    var absolute = event.absolute;
-    var alpha    = event.alpha;
-    var beta     = event.beta;
-    var gamma    = event.gamma;
-  
-    if (beta > 10 && beta < 90) { 
-        scene.ship.rightPressed = true;
-        scene.ship.leftPressed = false;
-    } else if (beta < -10 & beta > -90) {
-        scene.ship.leftPressed = true;
-        scene.ship.rightPressed = false;
-    } else {
-        scene.ship.rightPressed = false;
-        scene.ship.leftPressed = false;
-    }
-
-    if (gamma > 10 && gamma < 90) { 
-        scene.ship.upPressed = true;
-        scene.ship.downPressed = false;
-    } else if (beta < -10 & beta > -90) {
-        scene.ship.downPressed = true;
-        scene.ship.upPressed = false;
-    } else {
-        scene.ship.downPressed = false;
-        scene.ship.upPressed = false;
-    }
-
-  }
 
 // ================================ Script execution ================================ 
 var lastUpdate = new Date();
@@ -176,8 +147,12 @@ scene.end = function() {
             // do nothing...
         }
     }
-    score = {name: document.getElementById("player-text").value, score: document.getElementById("time").innerHTML};
-    xhr.send(JSON.stringify(score));
+    if (document.getElementById("player-text").value.includes('<') || document.getElementById("player-text").value.includes('>')) {
+        alert("Don't even think about trying XSS vulerability... ;)");
+    } else {
+        score = {name: document.getElementById("player-text").value, score: document.getElementById("time").innerHTML};
+        xhr.send(JSON.stringify(score));
+    }
 }
 loadEnemyModel(scene);
 
@@ -215,6 +190,10 @@ var spawns = [];
 var orphans = [];
 
 document.body.appendChild( renderer.domElement );
-document.addEventListener("keydown", onDocumentKeyDown, false);
-document.addEventListener("keyup", onDocumentKeyUp);
-window.addEventListener("deviceorientation", handleOrientation, true);
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    document.getElementById("controls").style.display = "inline-block";
+} else {
+    document.addEventListener("keydown", onDocumentKeyDown, false);
+    document.addEventListener("keyup", onDocumentKeyUp);
+}

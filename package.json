@@ -4,7 +4,8 @@
   "description": "Videgame using three.js",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "xss-escape": "0.0.6"
   },
   "devDependencies": {},
   "scripts": {
