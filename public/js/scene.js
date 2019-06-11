@@ -148,7 +148,7 @@ scene.end = function() {
         }
     }
     if (document.getElementById("player-text").value.includes('<') || document.getElementById("player-text").value.includes('>')) {
-        alert("Don't even think about trying XSS vulerability... ;)");
+        alert("Don't even think about XSS vulnerability... The back-end prevent this kind of attacks ;)");
     } else {
         score = {name: document.getElementById("player-text").value, score: document.getElementById("time").innerHTML};
         xhr.send(JSON.stringify(score));
