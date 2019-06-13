@@ -13,8 +13,8 @@ app.use(express.json())
 
 app.post('/new-score', function(req, res) {
     // Discard XSS injections
-    if(req.body.name.includes('<') || typeof req.body.score != "number") {
-        console.log("Discading suspicious request");
+    if(req.body.name.includes('<') || req.body.score.includes('<')) {
+        console.log("Discarding suspicious request", req.body.name, " and score type:", typeof req.body.score);
         res.end();
         return;
     }
