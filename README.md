@@ -1,7 +1,7 @@
 # Space race
 
 #### Direct link
-You can play the game by clicking [here](http://51.38.68.118)
+You can play the game by clicking [here](http://51.38.68.118:8080)
 
 #### Tools
 - 3D rendering: __three.js__
