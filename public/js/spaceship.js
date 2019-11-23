@@ -1,7 +1,6 @@
 var createShip = function(scene, y, z, xspeed, yspeed) {
   var loader = new THREE.GLTFLoader();
   var callback = function(gltf) {
-    console.log("gltf:", gltf);
     ship = gltf.scene;
     ship.position.y = y;
     ship.position.z = z;

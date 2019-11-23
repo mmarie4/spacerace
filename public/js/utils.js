@@ -31,20 +31,14 @@ var onClickPause = function() {
 };
 
 // Load gltf for enemies
-var loadEnemyModel = function(scene) {
-  var loader = new THREE.GLTFLoader();
-  console.log("Loader:", loader);
+var loadModel = function(manager, scene, key, model) {
+  var loader = new THREE.GLTFLoader(manager);
   loader.load(
-    "res/joined-enemy.glb",
+    model,
     function(gltf) {
-      scene.enemyModel = gltf.scene;
+      scene.models[key] = gltf.scene;
     },
-    function(xhr) {
-      console.log(
-        "Loading enemy model:",
-        (xhr.loaded / xhr.total) * 100 + "% loaded"
-      );
-    },
+    function(xhr) {},
     // called when loading has errors
     function(error) {
       console.log(error);
