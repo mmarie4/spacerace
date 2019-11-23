@@ -1,60 +1,71 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset=utf-8>
-		<title>Spacerace</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<div class="topbar">
-			<div class="icon" id="code-icon" onclick="onClickCode()">
-				<img src="res/code-icon.png">
-			</div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Spacerace</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <div class="topbar">
+      <div class="icon" id="code-icon" onclick="onClickCode()">
+        <img src="res/code-icon.png" />
+      </div>
 
-			<img src="res/title.png"/>
+      <img src="res/title.png" />
 
-			<input id="player-text" onfocus='this.value=""'>
+      <input id="player-text" onfocus='this.value=""' />
 
-			<div class="icon" id="right-icon">
-				<img id="leaderboard-img" src="res/leaderboard.png" onclick="onClickLeaderboard()">
-				<img id="pause-img" src="res/pause-icon.png" onclick="onClickPause()">
-			</div>
+      <div class="icon" id="right-icon">
+        <img
+          id="leaderboard-img"
+          src="res/leaderboard.png"
+          onclick="onClickLeaderboard()"
+        />
+        <img id="pause-img" src="res/pause-icon.png" onclick="onClickPause()" />
+      </div>
+    </div>
+  </head>
 
-		</div>
-	</head>
+  <body>
+    <img id="start-text" src="res/start-text.png" />
+    <img id="gameover-text" src="res/gameover.png" style="visibility: hidden" />
+    <img id="play-text" src="res/play.png" onclick="launchAfterLoad()" />
+    <img
+      id="restart-text"
+      src="res/play.png"
+      onclick="restart()"
+      style="visibility: hidden"
+    />
+    <p id="boost-text">Boost</p>
+    <div id="leaderboard-section">
+      <h2>
+        Leaderboard
+        <img id="cross" src="res/cross.png" onclick="onClickCross()" />
+      </h2>
+      <div id="leaderboard-content">
+        <text id="player1"></text> <text id="score1"> </text>
+        <text id="player2"></text> <text id="score2"> </text>
+        <text id="player3"></text> <text id="score3"> </text>
+        <text id="player4"></text> <text id="score4"> </text>
+        <text id="player5"></text> <text id="score5"> </text>
+        <text id="player6"></text> <text id="score6"> </text>
+        <text id="player7"></text> <text id="score7"> </text>
+        <text id="player8"></text> <text id="score8"> </text>
+        <text id="player9"></text> <text id="score9"> </text>
+        <text id="player10"></text> <text id="score10"> </text>
+      </div>
+    </div>
 
-	<body>
-		<img id="start-text" src="res/start-text.png">
-		<img id="gameover-text" src="res/gameover.png" style="visibility: hidden">
-		<img id="play-text" src="res/play.png" onclick="launchAfterLoad()">
-		<img id="restart-text" src="res/play.png" onclick="restart()" style="visibility: hidden">
-		<p id="boost-text">Boost</p>
-		<div id=leaderboard-section>
-			<h2>Leaderboard <img id="cross" src="res/cross.png" onclick="onClickCross()"></h2>
-			<div id="leaderboard-content">
-				<text id="player1"></text> <text id="score1"> </text>
-				<text id="player2"></text> <text id="score2"> </text>
-				<text id="player3"></text> <text id="score3"> </text>
-				<text id="player4"></text> <text id="score4"> </text>
-				<text id="player5"></text> <text id="score5"> </text>
-				<text id="player6"></text> <text id="score6"> </text>
-				<text id="player7"></text> <text id="score7"> </text>
-				<text id="player8"></text> <text id="score8"> </text>
-				<text id="player9"></text> <text id="score9"> </text>
-				<text id="player10"></text> <text id="score10"> </text>
-			</div>
-		</div>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/spaceship.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/spawn.js"></script>
+    <script src="js/scene.js"></script>
+  </body>
 
-		<script src="js/three.js"></script>
-		<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
-		<script src="js/constants.js"></script>
-		<script src="js/utils.js"></script>
-		<script src="js/spaceship.js"></script>
-		<script src="js/enemy.js"></script>
-		<script src="js/spawn.js"></script>
-		<script src="js/scene.js"></script>
-	</body>
-
-	<footer>
-		<p>Max MARIE - May 2019</p>
-		<p id="time">0 s</p>
-	</footer>
+  <footer>
+    <p>Max MARIE - May 2019</p>
+    <p id="time">0 s</p>
+  </footer>
 </html>
