@@ -1,5 +1,5 @@
-var onDocumentKeyDown = function(event) {
-  var keyCode = event.which;
+const onDocumentKeyDown = function(event) {
+  const keyCode = event.which;
   if (keyCode == 38) {
     // up key
     scene.ship.upPressed = true;
@@ -17,9 +17,9 @@ var onDocumentKeyDown = function(event) {
     scene.ship.boost();
   }
 };
-var onDocumentKeyUp = function(event) {
+const onDocumentKeyUp = function(event) {
   event.preventDefault();
-  var keyCode = event.which;
+  const keyCode = event.which;
   if (keyCode == 38) {
     // up key
     event.preventDefault();

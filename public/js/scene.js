@@ -1,15 +1,23 @@
+// ================================ Global vars ==============================
+let camera = null;
+var spawns = [];
+var orphans = [];
+const renderer = new THREE.WebGLRenderer();
+var lastUpdate = new Date();
+const scene = new THREE.Scene();
+scene.models = {};
+
 // ================================ Functions ================================
-var animate = function() {
-  //console.log("Math.abs(new Date() - lastUpdate)", Math.abs(new Date() - lastUpdate));
+const animate = function () {
   if (Math.abs(new Date() - lastUpdate) > UPDATE_FREQ) {
     if (!scene.gameOver && !scene.pause) {
       // Handle spawns
       for (var i = 0; i < spawns.length; i++) {
         if (
           Math.abs(spawns[i].position.x - scene.ship.position.x) >
-            SPAWN_LIMIT_FAR ||
+          SPAWN_LIMIT_FAR ||
           Math.abs(spawns[i].position.y - scene.ship.position.y) >
-            SPAWN_LIMIT_FAR
+          SPAWN_LIMIT_FAR
         ) {
           spawns[i].clear(scene, orphans);
           spawns.splice(i, 1);
@@ -71,24 +79,15 @@ var animate = function() {
   requestAnimationFrame(animate);
 };
 
-var launchAfterLoad = function() {
-  console.log("trying to launch...");
-  if (scene.ship != undefined && scene.models.enemy != undefined) {
-    scene.add(scene.ship);
-    document
-      .getElementById("start-text")
-      .setAttribute("style", "display: none");
-    document.getElementById("play-text").setAttribute("style", "display: none");
-    scene.pause = false;
-    scene.timestart = new Date();
-    animate();
-  } else {
-    console.log(scene.models);
-    setTimeout(launchAfterLoad, 500);
-  }
+const play = function () {
+  document.getElementById("start-text").setAttribute("style", "display: none");
+  document.getElementById("play-text").setAttribute("style", "display: none");
+  document.getElementById("render").style.visibility = "true";
+  scene.pause = false;
+  scene.timestart = new Date();
 };
 
-var restart = function() {
+const restart = function () {
   scene.ship.position = new THREE.Vector3(0, -20, 10);
   document
     .getElementById("gameover-text")
@@ -101,122 +100,117 @@ var restart = function() {
   scene.timestart = new Date();
   scene.add(scene.ship);
 };
+
+const init = function () {
+  scene.background = new THREE.Color(0x00072b);
+  scene.gameOver = false;
+  scene.pause = true;
+  scene.end = function () {
+    this.gameOver = true;
+    spawns.forEach(s => s.clear(scene, orphans));
+    orphans.forEach(o => {
+      scene.remove(o);
+    });
+    orphans = [];
+    spawns = [];
+    initShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY, manager);
+    scene.ship.kill(scene);
+    document
+      .getElementById("gameover-text")
+      .setAttribute("style", "visibility: visible");
+    document
+      .getElementById("restart-text")
+      .setAttribute("style", "display: inline");
+    // send score
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/new-score", true);
+    //Send the proper header information along with the request
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+      // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        // do nothing...
+      }
+    };
+    if (
+      !document.getElementById("player-text").value.includes("<") &&
+      !document.getElementById("player-text").value.includes(">")
+    ) {
+      score = {
+        name: document.getElementById("player-text").value,
+        score: document.getElementById("time").innerHTML
+      };
+      xhr.send(JSON.stringify(score));
+    }
+  };
+
+  // lights
+  const light = new THREE.PointLight(0xfff2c4, 2, 0, 2);
+  light.position.set(1000, 3500, 0);
+  scene.add(light);
+  const light2 = new THREE.PointLight(0xc4ceff, 1.5, 0, 0);
+  light2.position.set(-5000, -1000, -900);
+  scene.add(light2);
+  const light3 = new THREE.PointLight(0xf4e2ff, 2, 0, 0);
+  light3.position.set(-10, -10, 0);
+  scene.add(light3);
+
+  // renderer
+  renderer.setSize(window.innerWidth, window.innerHeight - 106);
+
+  // spaceship
+  initShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
+
+  // World
+  initWorld(scene, 0, -100, 0);
+
+  // camera
+  camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.z = 25;
+  camera.rotation.x = -0.2;
+  camera.update = function (object) {
+    camera.position.x = object.position.x;
+    camera.position.y = object.position.y + 5;
+    camera.position.z = object.position.z + 15;
+  };
+
+  document.getElementById("render").appendChild(renderer.domElement);
+
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  ) {
+    document.getElementById("controls").style.display = "inline-block";
+  } else {
+    document.addEventListener("keydown", onDocumentKeyDown, false);
+    document.addEventListener("keyup", onDocumentKeyUp);
+  }
+};
+
 // ================================ Script execution ================================
-var lastUpdate = new Date();
 
 // Loading manager
 var manager = new THREE.LoadingManager();
-const loadingBar = document.getElementById("loading-bar");
-manager.onProgress = function(item, loaded, total) {
+const loading = document.getElementById("loading");
+manager.onProgress = function (item, loaded, total) {
   console.log("Loading", item, ":", (loaded / total) * 200 + "px");
-  loadingBar.style.width = (loaded / total) * 200 + "px";
 };
-manager.onLoad = function() {
+manager.onLoad = function () {
   console.log("Loading complete !");
-  loadingBar.style.display = "none";
   document.getElementById("loading-bar-container").style.display = "none";
-  document.getElementById("black-screen").style.display = "none";
-};
-
-// Scene
-var scene = new THREE.Scene();
-scene.background = new THREE.Color(0x00072b);
-scene.gameOver = false;
-scene.pause = true;
-scene.models = {};
-scene.end = function() {
-  this.gameOver = true;
-  spawns.forEach(s => s.clear(scene, orphans));
-  orphans.forEach(o => {
-    scene.remove(o);
-  });
-  orphans = [];
-  spawns = [];
-  createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY, manager);
-  scene.ship.kill(scene);
-  document
-    .getElementById("gameover-text")
-    .setAttribute("style", "visibility: visible");
-  document
-    .getElementById("restart-text")
-    .setAttribute("style", "display: inline");
-  // send score
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "/new-score", true);
-  //Send the proper header information along with the request
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function() {
-    // Call a function when the state changes.
-    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-      // do nothing...
-    }
-  };
-  if (
-    document.getElementById("player-text").value.includes("<") ||
-    document.getElementById("player-text").value.includes(">")
-  ) {
-    alert(
-      "Don't even think about XSS vulnerability... The back-end prevent this kind of attacks ;)"
-    );
-  } else {
-    score = {
-      name: document.getElementById("player-text").value,
-      score: document.getElementById("time").innerHTML
-    };
-    xhr.send(JSON.stringify(score));
-  }
+  document.getElementById("floating-items").style.display = "";
+  document.getElementById("loading").style.display = "none";
+  init();
+  animate();
 };
 
 // Load models
 loadModel(manager, scene, "enemy", "res/joined-enemy.glb");
 loadModel(manager, scene, "ship", "res/joined-spaceship.glb");
-
-// lights
-var light = new THREE.PointLight(0xfff2c4, 2, 0, 2);
-light.position.set(1000, 3500, 0);
-scene.add(light);
-var light2 = new THREE.PointLight(0xc4ceff, 1.5, 0, 0);
-light2.position.set(-5000, -1000, -900);
-scene.add(light2);
-var light3 = new THREE.PointLight(0xf4e2ff, 2, 0, 0);
-light3.position.set(-10, -10, 0);
-scene.add(light3);
-
-// renderer
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight - 106);
-
-// spaceship
-createShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
-
-// camera
-var camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-camera.position.z = 25;
-camera.rotation.x = -0.2;
-camera.update = function(object) {
-  camera.position.x = object.position.x;
-  camera.position.y = object.position.y + 5;
-  camera.position.z = object.position.z + 15;
-};
-
-// enemies
-var spawns = [];
-var orphans = [];
-
-document.body.appendChild(renderer.domElement);
-
-if (
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
-) {
-  document.getElementById("controls").style.display = "inline-block";
-} else {
-  document.addEventListener("keydown", onDocumentKeyDown, false);
-  document.addEventListener("keyup", onDocumentKeyUp);
-}
+loadModel(manager, scene, "floor", "res/floor.glb");

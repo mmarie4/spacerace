@@ -30,13 +30,14 @@ var onClickPause = function() {
         .setAttribute("src", "res/pause-icon.png");
 };
 
-// Load gltf for enemies
+// Load gltf
 var loadModel = function(manager, scene, key, model) {
   var loader = new THREE.GLTFLoader(manager);
   loader.load(
     model,
     function(gltf) {
       scene.models[key] = gltf.scene;
+      console.log("scene", scene);
     },
     function(xhr) {},
     // called when loading has errors
