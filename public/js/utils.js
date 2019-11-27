@@ -37,7 +37,6 @@ var loadModel = function(manager, scene, key, model) {
     model,
     function(gltf) {
       scene.models[key] = gltf.scene;
-      console.log("scene", scene);
     },
     function(xhr) {},
     // called when loading has errors

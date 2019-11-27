@@ -1,23 +1,23 @@
 // ================================ Global vars ==============================
 let camera = null;
-var spawns = [];
-var orphans = [];
+let spawns = [];
+let orphans = [];
 const renderer = new THREE.WebGLRenderer();
-var lastUpdate = new Date();
+let lastUpdate = new Date();
 const scene = new THREE.Scene();
 scene.models = {};
 
 // ================================ Functions ================================
-const animate = function () {
+const animate = function() {
   if (Math.abs(new Date() - lastUpdate) > UPDATE_FREQ) {
     if (!scene.gameOver && !scene.pause) {
       // Handle spawns
-      for (var i = 0; i < spawns.length; i++) {
+      for (let i = 0; i < spawns.length; i++) {
         if (
           Math.abs(spawns[i].position.x - scene.ship.position.x) >
-          SPAWN_LIMIT_FAR ||
+            SPAWN_LIMIT_FAR ||
           Math.abs(spawns[i].position.y - scene.ship.position.y) >
-          SPAWN_LIMIT_FAR
+            SPAWN_LIMIT_FAR
         ) {
           spawns[i].clear(scene, orphans);
           spawns.splice(i, 1);
@@ -29,7 +29,7 @@ const animate = function () {
         }
       }
       // Create new spawns
-      var rand = Math.random();
+      let rand = Math.random();
       if (rand < NEWSPAWN_FREQ_NEAR && spawns.length < MAX_NB_SPAWNS) {
         if (rand < NEWSPAWN_FREQ_FAR) {
           spawns.push(
@@ -52,7 +52,7 @@ const animate = function () {
         }
       }
       // Move orphan enemies
-      for (var i = 0; i < orphans.length; i++) {
+      for (let i = 0; i < orphans.length; i++) {
         if (orphans[i].position.z >= camera.position.z) {
           scene.remove(orphans[i]);
           orphans.splice(i, 1);
@@ -79,15 +79,15 @@ const animate = function () {
   requestAnimationFrame(animate);
 };
 
-const play = function () {
+const play = function() {
   document.getElementById("start-text").setAttribute("style", "display: none");
   document.getElementById("play-text").setAttribute("style", "display: none");
-  document.getElementById("render").style.visibility = "true";
+  document.getElementById("render").style.visibility = "";
   scene.pause = false;
   scene.timestart = new Date();
 };
 
-const restart = function () {
+const restart = function() {
   scene.ship.position = new THREE.Vector3(0, -20, 10);
   document
     .getElementById("gameover-text")
@@ -101,11 +101,11 @@ const restart = function () {
   scene.add(scene.ship);
 };
 
-const init = function () {
+const init = function() {
   scene.background = new THREE.Color(0x00072b);
   scene.gameOver = false;
   scene.pause = true;
-  scene.end = function () {
+  scene.end = function() {
     this.gameOver = true;
     spawns.forEach(s => s.clear(scene, orphans));
     orphans.forEach(o => {
@@ -122,11 +122,11 @@ const init = function () {
       .getElementById("restart-text")
       .setAttribute("style", "display: inline");
     // send score
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "/new-score", true);
     //Send the proper header information along with the request
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
       // Call a function when the state changes.
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
         // do nothing...
@@ -156,13 +156,13 @@ const init = function () {
   scene.add(light3);
 
   // renderer
-  renderer.setSize(window.innerWidth, window.innerHeight - 106);
+  renderer.setSize(window.innerWidth, window.innerHeight - 100);
 
   // spaceship
   initShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
 
   // World
-  initWorld(scene, 0, -100, 0);
+  // initWorld(scene, 0, -100, 0);
 
   // camera
   camera = new THREE.PerspectiveCamera(
@@ -173,7 +173,7 @@ const init = function () {
   );
   camera.position.z = 25;
   camera.rotation.x = -0.2;
-  camera.update = function (object) {
+  camera.update = function(object) {
     camera.position.x = object.position.x;
     camera.position.y = object.position.y + 5;
     camera.position.z = object.position.z + 15;
@@ -196,14 +196,13 @@ const init = function () {
 // ================================ Script execution ================================
 
 // Loading manager
-var manager = new THREE.LoadingManager();
+let manager = new THREE.LoadingManager();
 const loading = document.getElementById("loading");
-manager.onProgress = function (item, loaded, total) {
-  console.log("Loading", item, ":", (loaded / total) * 200 + "px");
+manager.onProgress = function(item, loaded, total) {
+  console.log("Loading", item, ":", (loaded / total) * 100 + "%");
 };
-manager.onLoad = function () {
+manager.onLoad = function() {
   console.log("Loading complete !");
-  document.getElementById("loading-bar-container").style.display = "none";
   document.getElementById("floating-items").style.display = "";
   document.getElementById("loading").style.display = "none";
   init();

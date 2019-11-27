@@ -40,8 +40,12 @@ img {
 }
 
 footer {
-  display: inline-block;
-  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: calc(100vh - 30px);
+  height: 30px;
   width: 100%;
   background-color: #000000;
   margin: 0;
