@@ -9,7 +9,7 @@
   <body>
     <!-- Topbar -->
     <div class="topbar">
-      <div class="icon" id="code-icon" onclick="onClickCode()">
+      <div class="icon" id="code-icon" onclick="sr_utils.onClickCode()">
         <img src="res/code-icon.png" />
       </div>
 
@@ -23,11 +23,15 @@
           src="res/leaderboard.png"
           onclick="onClickLeaderboard()"
         />
-        <img id="pause-img" src="res/pause-icon.png" onclick="onClickPause()" />
+        <img
+          id="pause-img"
+          src="res/pause-icon.png"
+          onclick="sr_utils.onClickPause()"
+        />
       </div>
     </div>
 
-    <!-- Loading bar -->
+    <!-- Spinner -->
     <div id="loading"></div>
 
     <!-- Floating texts -->
@@ -55,7 +59,7 @@
     <div id="leaderboard-section">
       <h2>
         Leaderboard
-        <img id="cross" src="res/cross.png" onclick="onClickCross()" />
+        <img id="cross" src="res/cross.png" onclick="sr_utils.onClickCross()" />
       </h2>
       <div id="leaderboard-content">
         <text id="player1"></text> <text id="score1"> </text>
@@ -74,14 +78,8 @@
     <!-- Scripts -->
     <script src="https://threejs.org/build/three.js"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="js/constants.js"></script>
-    <script src="js/listeners.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/spaceship.js"></script>
-    <script src="js/world.js"></script>
-    <script src="js/enemy.js"></script>
-    <script src="js/spawn.js"></script>
-    <script src="js/scene.js"></script>
+    <script src="js/sr.js"></script>
+    <script src="js/main.js"></script>
 
     <!-- Footer -->
     <footer>

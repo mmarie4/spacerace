@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Spacerace</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="icon" id="code-icon" onclick="onClickCode()">
+        <img src="res/code-icon.png" />
+      </div>
+
+      <img src="res/title.png" />
+
+      <input id="player-text" onfocus='this.value=""' />
+
+      <div class="icon" id="right-icon">
+        <img
+          id="leaderboard-img"
+          src="res/leaderboard.png"
+          onclick="onClickLeaderboard()"
+        />
+        <img id="pause-img" src="res/pause-icon.png" onclick="onClickPause()" />
+      </div>
+    </div>
+
+    <div id="loading"></div>
+
+    <div class="menu">
+      <div id="menu-container"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Max MARIE - 2019 ©</p>
+      <p id="time">0 s</p>
+    </footer>
+
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="js/sr.js"></script>
+    <script src="js/menu.js"></script>
+  </body>
+</html>

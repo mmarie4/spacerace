@@ -6,23 +6,24 @@ const renderer = new THREE.WebGLRenderer();
 let lastUpdate = new Date();
 const scene = new THREE.Scene();
 scene.models = {};
+scene.textures = {};
 
 // ================================ Functions ================================
 const animate = function() {
-  if (Math.abs(new Date() - lastUpdate) > UPDATE_FREQ) {
+  if (Math.abs(new Date() - lastUpdate) > sr_constants.UPDATE_FREQ) {
     if (!scene.gameOver && !scene.pause) {
       // Handle spawns
       for (let i = 0; i < spawns.length; i++) {
         if (
           Math.abs(spawns[i].position.x - scene.ship.position.x) >
-            SPAWN_LIMIT_FAR ||
+            sr_constants.SPAWN_LIMIT_FAR ||
           Math.abs(spawns[i].position.y - scene.ship.position.y) >
-            SPAWN_LIMIT_FAR
+            sr_constants.SPAWN_LIMIT_FAR
         ) {
           spawns[i].clear(scene, orphans);
           spawns.splice(i, 1);
         } else {
-          if (Math.random() < SPAWN_FREQ) {
+          if (Math.random() < sr_constants.SPAWN_FREQ) {
             spawns[i].pop() && spawns[i].update(scene, camera);
           }
           spawns[i].update(scene, camera);
@@ -30,23 +31,30 @@ const animate = function() {
       }
       // Create new spawns
       let rand = Math.random();
-      if (rand < NEWSPAWN_FREQ_NEAR && spawns.length < MAX_NB_SPAWNS) {
-        if (rand < NEWSPAWN_FREQ_FAR) {
+      if (
+        rand < sr_constants.NEWSPAWN_FREQ_NEAR &&
+        spawns.length < sr_constants.MAX_NB_SPAWNS
+      ) {
+        if (rand < sr_constants.NEWSPAWN_FREQ_FAR) {
           spawns.push(
-            createSpawn(
+            sr_spawns.create(
               scene,
-              scene.ship.position.x + SPAWN_LIMIT_FAR * (Math.random() - 0.5),
-              scene.ship.position.y + SPAWN_LIMIT_FAR * (Math.random() - 0.5),
-              SPAWN_Z
+              scene.ship.position.x +
+                sr_constants.SPAWN_LIMIT_FAR * (Math.random() - 0.5),
+              scene.ship.position.y +
+                sr_constants.SPAWN_LIMIT_FAR * (Math.random() - 0.5),
+              sr_constants.SPAWN_Z
             )
           );
         } else {
           spawns.push(
-            createSpawn(
+            sr_spawns.create(
               scene,
-              scene.ship.position.x + SPAWN_LIMIT_NEAR * (Math.random() - 0.5),
-              scene.ship.position.y + SPAWN_LIMIT_NEAR * (Math.random() - 0.5),
-              SPAWN_Z
+              scene.ship.position.x +
+                sr_constants.SPAWN_LIMIT_NEAR * (Math.random() - 0.5),
+              scene.ship.position.y +
+                sr_constants.SPAWN_LIMIT_NEAR * (Math.random() - 0.5),
+              sr_constants.SPAWN_Z
             )
           );
         }
@@ -113,7 +121,14 @@ const init = function() {
     });
     orphans = [];
     spawns = [];
-    initShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY, manager);
+    sr_spaceship.init(
+      scene,
+      -20,
+      10,
+      sr_constants.SPACESHIP_SPEEDX,
+      sr_constants.SPACESHIP_SPEEDY,
+      manager
+    );
     scene.ship.kill(scene);
     document
       .getElementById("gameover-text")
@@ -159,7 +174,13 @@ const init = function() {
   renderer.setSize(window.innerWidth, window.innerHeight - 100);
 
   // spaceship
-  initShip(scene, -20, 10, SPACESHIP_SPEEDX, SPACESHIP_SPEEDY);
+  sr_spaceship.init(
+    scene,
+    -20,
+    10,
+    sr_constants.SPACESHIP_SPEEDX,
+    sr_constants.SPACESHIP_SPEEDY
+  );
 
   // World
   // initWorld(scene, 0, -100, 0);
@@ -186,14 +207,22 @@ const init = function() {
       navigator.userAgent
     )
   ) {
-    document.getElementById("controls").style.display = "inline-block";
+    // document.getElementById("controls").style.display = "inline-block";
+    console.log("No mobile version yet.");
   } else {
-    document.addEventListener("keydown", onDocumentKeyDown, false);
-    document.addEventListener("keyup", onDocumentKeyUp);
+    document.addEventListener("keydown", sr_listeners.onDocumentKeyDown, false);
+    document.addEventListener("keyup", sr_listeners.onDocumentKeyUp);
   }
 };
 
 // ================================ Script execution ================================
+let leaderboardDisplayed = false;
+// Display player name
+let player = "Player" + parseInt(Math.random() * 10000);
+document.getElementById("player-text").setAttribute("value", player);
+document.getElementById("player-text").addEventListener("keyup", function(e) {
+  if (e.which == 13 && this.value != "") this.blur();
+});
 
 // Loading manager
 let manager = new THREE.LoadingManager();
@@ -209,7 +238,8 @@ manager.onLoad = function() {
   animate();
 };
 
-// Load models
-loadModel(manager, scene, "enemy", "res/joined-enemy.glb");
-loadModel(manager, scene, "ship", "res/joined-spaceship.glb");
-loadModel(manager, scene, "floor", "res/floor.glb");
+// Load models and textures
+sr_utils.loadModel(manager, scene, "enemy", "res/joined-enemy.glb");
+sr_utils.loadModel(manager, scene, "ship", "res/joined-spaceship.glb");
+sr_utils.loadModel(manager, scene, "floor", "res/floor.glb");
+sr_utils.loadTexture(manager, scene, "metal", "res/metal1.png");
