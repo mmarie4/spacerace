@@ -1,11 +1,14 @@
 .topbar {
-  display: inline-block;
+  display: flex;
   text-align: center;
+  justify-content: space-between;
   width: 100%;
   height: 70px;
-  vertical-align: middle;
+  align-items: center;
   background-color: #000000;
   text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 body {
@@ -14,11 +17,6 @@ body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   color: white;
-}
-
-canvas {
-  width: 100%;
-  height: 500px;
 }
 
 img {
@@ -33,9 +31,6 @@ img {
   vertical-align: middle;
   margin: 10px;
   cursor: pointer;
-}
-#code-icon {
-  float: left;
 }
 #right-icon {
   float: right;
@@ -59,39 +54,6 @@ p {
   margin-left: 50px;
   color: #ffffff;
   margin-right: 50px;
-}
-
-#time {
-  float: right;
-}
-
-#start-text {
-  position: absolute;
-  top: calc(50% - 100px);
-  left: calc(50% - 300px);
-}
-
-#play-text,
-#restart-text {
-  position: absolute;
-  top: calc(50% + 150px);
-  left: calc(50% - 70px);
-  cursor: pointer;
-}
-
-#gameover-text {
-  position: absolute;
-  top: 30%;
-  left: calc(50% - 100px);
-}
-
-#boost-text {
-  position: absolute;
-  top: 12%;
-  left: 95%;
-  font-size: 14px;
-  opacity: 0.2;
-  margin: 0;
 }
 
 #leaderboard-section {
@@ -121,33 +83,6 @@ h2 {
   margin: 10px;
 }
 
-#cross {
-  float: right;
-  cursor: pointer;
-  margin: 0;
-}
-
-#player-text {
-  background: none;
-  border: none;
-  color: #ffffff;
-  position: absolute;
-  top: 12%;
-  left: 2%;
-  max-width: 8%;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-#control {
-  background: #ffffff;
-  width: 50px;
-  height: 30px;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-}
-
 #loading {
   border-radius: 100%;
   border-top: 2px solid white;
@@ -168,30 +103,4 @@ h2 {
   width: 100%;
   height: 100vh;
   background: #000000;
-}
-
-#menu-container {
-  justify-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: auto;
-}
-
-#menu-container canvas {
-  border-radius: 5px;
-  margin: auto;
-  cursor: pointer;
-}
-
-h3 {
-  width: 100%;
-  text-align: center;
-  margin-top: 50px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }

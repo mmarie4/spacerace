@@ -9,3 +9,5 @@ const sr_world = {
     scene.add(floor);
   }
 };
+
+export default sr_world;

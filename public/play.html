@@ -3,33 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <title>Spacerace</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/global.css" />
+    <link rel="stylesheet" type="text/css" href="css/play.css" />
   </head>
 
   <body>
     <!-- Topbar -->
     <div class="topbar">
-      <div class="icon" id="code-icon" onclick="sr_utils.onClickCode()">
-        <img src="res/code-icon.png" />
-      </div>
+      <a href="menu.html" id="back">&lt;</a>
 
       <img src="res/title.png" />
 
-      <input id="player-text" onfocus='this.value=""' />
-
       <div class="icon" id="right-icon">
-        <img
-          id="leaderboard-img"
-          src="res/leaderboard.png"
-          onclick="onClickLeaderboard()"
-        />
-        <img
-          id="pause-img"
-          src="res/pause-icon.png"
-          onclick="sr_utils.onClickPause()"
-        />
+        <img id="code-icon" src="res/code-icon.png" />
+        <img id="leaderboard-img" src="res/leaderboard.png" />
+        <img id="pause-img" src="res/pause-icon.png" />
       </div>
     </div>
+
+    <input id="player-text" onfocus='this.value=""' />
 
     <!-- Spinner -->
     <div id="loading"></div>
@@ -42,13 +34,8 @@
         src="res/gameover.png"
         style="visibility: hidden"
       />
-      <img id="play-text" src="res/play.png" onclick="play()" />
-      <img
-        id="restart-text"
-        src="res/play.png"
-        onclick="restart()"
-        style="visibility: hidden"
-      />
+      <img id="play-text" src="res/play.png" />
+      <img id="restart-text" src="res/play.png" style="visibility: hidden" />
       <p id="boost-text">Boost</p>
     </div>
 
@@ -59,7 +46,7 @@
     <div id="leaderboard-section">
       <h2>
         Leaderboard
-        <img id="cross" src="res/cross.png" onclick="sr_utils.onClickCross()" />
+        <img id="cross" src="res/cross.png" />
       </h2>
       <div id="leaderboard-content">
         <text id="player1"></text> <text id="score1"> </text>
@@ -78,8 +65,7 @@
     <!-- Scripts -->
     <script src="https://threejs.org/build/three.js"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="js/sr.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/play.bundle.js"></script>
 
     <!-- Footer -->
     <footer>

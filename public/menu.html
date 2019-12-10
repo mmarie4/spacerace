@@ -3,34 +3,62 @@
   <head>
     <meta charset="utf-8" />
     <title>Spacerace</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/global.css" />
+    <link rel="stylesheet" type="text/css" href="css/menu.css" />
   </head>
 
   <body>
     <!-- Topbar -->
     <div class="topbar">
-      <div class="icon" id="code-icon" onclick="onClickCode()">
-        <img src="res/code-icon.png" />
-      </div>
-
       <img src="res/title.png" />
 
-      <input id="player-text" onfocus='this.value=""' />
-
       <div class="icon" id="right-icon">
+        <img
+          id="code-icon"
+          src="res/code-icon.png"
+          onclick="sr_utils.onClickCode()"
+        />
         <img
           id="leaderboard-img"
           src="res/leaderboard.png"
           onclick="onClickLeaderboard()"
         />
-        <img id="pause-img" src="res/pause-icon.png" onclick="onClickPause()" />
+        <img
+          id="pause-img"
+          src="res/pause-icon.png"
+          onclick="sr_utils.onClickPause()"
+        />
       </div>
     </div>
 
     <div id="loading"></div>
 
     <div class="menu">
-      <div id="menu-container"></div>
+      <div id="menu-container">
+        <a href="/play?ship=1" class="selector"></a>
+        <a href="/play?ship=2" class="selector"></a>
+        <a href="/play?ship=3" class="selector"></a>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div id="leaderboard-section">
+      <h2>
+        Leaderboard
+        <img id="cross" src="res/cross.png" onclick="sr_utils.onClickCross()" />
+      </h2>
+      <div id="leaderboard-content">
+        <text id="player1"></text> <text id="score1"> </text>
+        <text id="player2"></text> <text id="score2"> </text>
+        <text id="player3"></text> <text id="score3"> </text>
+        <text id="player4"></text> <text id="score4"> </text>
+        <text id="player5"></text> <text id="score5"> </text>
+        <text id="player6"></text> <text id="score6"> </text>
+        <text id="player7"></text> <text id="score7"> </text>
+        <text id="player8"></text> <text id="score8"> </text>
+        <text id="player9"></text> <text id="score9"> </text>
+        <text id="player10"></text> <text id="score10"> </text>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -41,7 +69,6 @@
 
     <script src="https://threejs.org/build/three.js"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="js/sr.js"></script>
-    <script src="js/menu.js"></script>
+    <script src="js/menu.bundle.js"></script>
   </body>
 </html>

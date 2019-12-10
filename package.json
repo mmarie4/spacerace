@@ -5,12 +5,14 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.16.4",
+    "webpack": "^4.41.2",
     "xss-escape": "0.0.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack-cli": "^3.3.10"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node build-lib.js && node server.js"
+    "start": "webpack public/js/menu.js -o public/js/menu.bundle.js && webpack public/js/play.js -o public/js/play.bundle.js && node server.js"
   },
   "repository": {
     "type": "git",

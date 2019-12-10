@@ -1,4 +1,12 @@
+import sr_utils from "./sr/sr_utils.js";
+import sr_constants from "./sr/sr_constants.js";
+
+console.log(sr_utils);
+
+console.log("sr_utils:", sr_utils);
+
 let lastUpdate = new Date();
+const selectors = document.getElementsByClassName("selector");
 // Loading manager
 let manager = new THREE.LoadingManager();
 const loading = document.getElementById("loading");
@@ -21,11 +29,14 @@ for (let i = 0; i < 3; i++) {
   scenes[i] = new THREE.Scene();
   scenes[i].pause = true;
   scenes[i].models = {};
-  sr_utils.loadModel(manager, scenes[i], "ship", "res/joined-spaceship.glb");
+  sr_utils.loadModel(
+    manager,
+    scenes[i],
+    "ship",
+    "res/joined-spaceship" + parseInt(i + 1) + ".glb"
+  );
   renderers[i].setSize(300, 300);
-  document
-    .getElementById("menu-container")
-    .appendChild(renderers[i].domElement);
+  selectors[i].appendChild(renderers[i].domElement);
 }
 
 // Add ships in scenes
@@ -36,6 +47,7 @@ const init = function() {
     // ship.position.x = x
     ship.position.y = -3;
     ship.position.z = -15;
+    ship.rotation.z = Math.PI / -32;
     ship.move = function() {
       console.log("Moving ship", i);
       ship.rotation.y += Math.PI / 180;

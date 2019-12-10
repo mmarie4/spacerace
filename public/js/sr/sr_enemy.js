@@ -1,14 +1,13 @@
+import sr_constants from "./sr_constants.js";
+
 const sr_enemy = {
-  create: function(x, y, z, speedz) {
+  create: function(x, y, z, speedz, scene) {
     let geometry = new THREE.BoxGeometry(5, 5, 5);
     let material = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0xff1d00)
     });
-    let enemy = scene.models.enemy.clone();
-    enemy.position = THREE.Vector3();
-    enemy.position.x = x;
-    enemy.position.y = y;
-    enemy.position.z = z;
+    const enemy = scene.models.enemy.clone();
+    enemy.position.set(x, y, z);
     enemy.zSpeed = speedz;
     enemy.Kpy = sr_constants.ENEMIES_KPY * Math.random();
     enemy.Kpx = sr_constants.ENEMIES_KPX * Math.random();
@@ -43,3 +42,5 @@ const sr_enemy = {
     return enemy;
   }
 };
+
+export default sr_enemy;

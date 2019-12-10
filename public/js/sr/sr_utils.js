@@ -18,7 +18,7 @@ const sr_utils = {
   },
 
   // Pause
-  onClickPause: function() {
+  onClickPause: function(scene) {
     scene.pause = !scene.pause;
     scene.pause
       ? document
@@ -63,11 +63,11 @@ const sr_utils = {
   },
 
   // Display/hide leaderboard
-  onClickLeaderboard: function() {
+  onClickLeaderboard: function(leaderboardDisplayed) {
     if (!leaderboardDisplayed) {
       let xhr = new XMLHttpRequest();
       xhr.open("GET", "/leaderboard", true);
-      //Send the proper header information along with the request
+      // Send the proper header information along with the request
       xhr.onreadystatechange = function() {
         // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -84,10 +84,6 @@ const sr_utils = {
           leaderboardDisplayed = true;
         }
       };
-      score = {
-        name: document.getElementById("player-text").getAttribute("value"),
-        score: document.getElementById("time").innerHTML
-      };
       xhr.send();
     } else {
       document
@@ -96,6 +92,7 @@ const sr_utils = {
       leaderboardDisplayed = false;
     }
   },
+
   onClickCross: function() {
     document
       .getElementById("leaderboard-section")
@@ -103,3 +100,5 @@ const sr_utils = {
     leaderboardDisplayed = false;
   }
 };
+
+export default sr_utils;

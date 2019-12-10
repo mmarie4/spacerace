@@ -1,42 +1,44 @@
 const sr_listeners = {
-  onDocumentKeyDown: function(event) {
+  onDocumentKeyDown: function(event, that) {
     const keyCode = event.which;
     if (keyCode == 38) {
       // up key
-      scene.ship.upPressed = true;
+      that.scene.ship.upPressed = true;
     } else if (keyCode == 40) {
       // down key
-      scene.ship.downPressed = true;
+      that.scene.ship.downPressed = true;
     } else if (keyCode == 39) {
       // right key
-      scene.ship.rightPressed = true;
+      that.scene.ship.rightPressed = true;
     } else if (keyCode == 37) {
       // left key
-      scene.ship.leftPressed = true;
+      that.scene.ship.leftPressed = true;
     } else if (keyCode == 32) {
       // space bar
-      scene.ship.boost();
+      that.scene.ship.boost();
     }
   },
-  onDocumentKeyUp: function(event) {
+  onDocumentKeyUp: function(event, that) {
     event.preventDefault();
     const keyCode = event.which;
     if (keyCode == 38) {
       // up key
       event.preventDefault();
-      scene.ship.upPressed = false;
+      that.scene.ship.upPressed = false;
     } else if (keyCode == 40) {
       // down key
       event.preventDefault();
-      scene.ship.downPressed = false;
+      that.scene.ship.downPressed = false;
     } else if (keyCode == 39) {
       // right key
       event.preventDefault();
-      scene.ship.rightPressed = false;
+      that.scene.ship.rightPressed = false;
     } else if (keyCode == 37) {
       // left key
       event.preventDefault();
-      scene.ship.leftPressed = false;
+      that.scene.ship.leftPressed = false;
     }
   }
 };
+
+export default sr_listeners;

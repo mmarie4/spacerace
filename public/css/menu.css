@@ -1,0 +1,25 @@
+#menu-container {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: auto;
+}
+
+#menu-container canvas {
+  border-radius: 5px;
+  margin: auto;
+  cursor: pointer;
+}
+
+h3 {
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

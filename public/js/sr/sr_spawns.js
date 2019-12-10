@@ -1,3 +1,6 @@
+import sr_constants from "./sr_constants.js";
+import sr_enemy from "./sr_enemy.js";
+
 const sr_spawns = {
   create: function(scene, x, y, z) {
     let spawn = {
@@ -14,7 +17,8 @@ const sr_spawns = {
           this.position.x,
           this.position.y,
           this.position.z,
-          sr_constants.ENEMIES_SPEED_Z
+          sr_constants.ENEMIES_SPEED_Z,
+          scene
         );
         this.enemies.push(newEnemy);
         this.scene.add(newEnemy);
@@ -42,3 +46,5 @@ const sr_spawns = {
     return spawn;
   }
 };
+
+export default sr_spawns;

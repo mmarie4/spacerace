@@ -1,6 +1,8 @@
+import sr_constants from "./sr_constants.js";
+
 const sr_spaceship = {
   init: function(scene, y, z, xspeed, yspeed) {
-    ship = scene.models.ship.clone();
+    const ship = scene.models.ship.clone();
     ship.position.y = y;
     ship.position.z = z;
     ship.rotation.y = Math.PI / 2;
@@ -92,9 +94,8 @@ const sr_spaceship = {
         scene.remove(this.light);
       });
     ship.light = new THREE.PointLight(0xffffff, 0.5, 0, 2);
-    ship.light.position = ship.position;
-    ship.light.position.y += 5;
-    ship.light.position.x += 5;
+    ship.light.position.set =
+      (ship.position.x + 5, ship.position.y + 5, ship.position.z);
     // Sprites : https://ui-ex.com/explore/transparent-circle-light/
     new THREE.TextureLoader().load("res/reactor.png", function(spriteMap) {
       let spriteMaterial = new THREE.SpriteMaterial({
@@ -116,3 +117,5 @@ const sr_spaceship = {
     scene.add(scene.ship);
   }
 };
+
+export default sr_spaceship;

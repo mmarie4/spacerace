@@ -1,4 +1,5 @@
 const sr_constants = {
+  SHIPIDLIST: ["1", "2", "3"],
   SERVER_ADDRESS: "51.38.68.118:8080",
   UPDATE_FREQ: 20,
   ENEMIES_SPEED_Z: 15,
@@ -23,3 +24,5 @@ const sr_constants = {
   LIMIT_AIM: 0,
   ANTICIPATE: 30
 };
+
+export default sr_constants;
