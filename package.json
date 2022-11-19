@@ -9,7 +9,7 @@
     "xss-escape": "0.0.6"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   },
   "scripts": {
     "start": "webpack public/js/menu.js -o public/js/menu.bundle.js && webpack public/js/play.js -o public/js/play.bundle.js && node server.js"
